@@ -24,18 +24,23 @@ const currentBoard = (function GameBoard() {
 
   const cellAvailable = (cell) => cell.getMark() === 0;
 
-  const modifyCell = (row, column, playerMark) => {
-    const cell = board[row][column]
-    (cellAvailable(cell) ? cell.addMark(markStyle) : 'no')};
+  const modifyCell = (row, column, playerMark) => (cellAvailable(board[row][column]) ? board[row][column].addMark(playerMark) : 'no');
 
   return { getBoard, modifyCell };
 }());
 
 function Player(name, markStyle) {
-  const name = name
-  const markStyle = markStyle
+  const markCell = (row, column) => currentBoard.modifyCell(row, column, markStyle);
 
-  const markCell = (row, column) => currentBoard.modifyCell(row,column, markStyle);
-
+  return { markCell, name, markStyle };
 }
+
+(function GameCotroller() {
+  const Player1 = Player('Juan', 'X');
+  const Player2 = Player('Carlos', 'O');
+
+  const players = [Player1, Player2];
+});
+
+const Juan = Player('Juan', 'X');
 currentBoard.getBoard();
