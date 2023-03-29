@@ -24,12 +24,18 @@ const currentBoard = (function GameBoard() {
 
   const cellAvailable = (cell) => cell.getMark() === 0;
 
-  const markCell = (row, column, player) => (cellAvailable(board[row][column]) ? board[row][column].addMark(player) : 'no');
-  return { getBoard, markCell };
+  const modifyCell = (row, column, playerMark) => {
+    const cell = board[row][column]
+    (cellAvailable(cell) ? cell.addMark(markStyle) : 'no')};
+
+  return { getBoard, modifyCell };
 }());
 
 function Player(name, markStyle) {
   const name = name
   const markStyle = markStyle
+
+  const markCell = (row, column) => currentBoard.modifyCell(row,column, markStyle);
+
 }
 currentBoard.getBoard();
