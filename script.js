@@ -1,12 +1,12 @@
-function Cell() {
-  let mark = 0;
-
-  const addMark = (playerMark) => { mark = playerMark; };
-
-  const getMark = () => mark;
-
-  return { addMark, getMark };
-}
+// function Cell() {
+//  let mark = 0;
+//
+//  const addMark = (playerMark) => { mark = playerMark; };
+//
+//  const getMark = () => mark;
+//
+//  return { addMark, getMark };
+// }
 
 const currentBoard = (function GameBoard() {
   const board = [];
@@ -16,15 +16,19 @@ const currentBoard = (function GameBoard() {
   for (let i = 0; i < rows; i++) {
     board.push([]);
     for (let j = 0; j < columns; j++) {
-      board[i].push(Cell());
+      board[i].push(0);
     }
   }
 
   const getBoard = () => board;
 
-  const cellAvailable = (cell) => cell.getMark() === 0;
+  const cellAvailable = (cell) => cell === 0;
 
-  const modifyCell = (row, column, playerMark) => (cellAvailable(board[row][column]) ? board[row][column].addMark(playerMark) : 'no');
+  const modifyCell = (row, column, playerMark) => {
+    if (cellAvailable(row, column)) {
+      board[row][column] = playerMark;
+    }
+  }; // (cellAvailable(board[row][column]) ? board[row][column] = playerMark : 'no');
 
   return { getBoard, modifyCell };
 }());
@@ -35,12 +39,28 @@ function Player(name, markStyle) {
   return { markCell, name, markStyle };
 }
 
-(function GameCotroller() {
+const GameController = (function GameController() {
   const Player1 = Player('Juan', 'X');
   const Player2 = Player('Carlos', 'O');
-
   const players = [Player1, Player2];
-});
 
-const Juan = Player('Juan', 'X');
-currentBoard.getBoard();
+  let currentTurn = players[0];
+
+  const getCurrentTurn = () => currentTurn;
+  const getPlayers = () => players;
+
+  const switchTurn = () => {
+    currentTurn = (currentTurn === players[0] ? players[1] : players[0]);
+  };
+
+  const playRound = (row, column) => {
+    currentTurn.markCell(row, column);
+    switchTurn();
+  };
+
+  return {
+    getPlayers, switchTurn, getCurrentTurn, playRound,
+  };
+}());
+
+// funcion comenzar nuevo juego con los jugadores 1 y 2
