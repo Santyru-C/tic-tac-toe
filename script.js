@@ -8,7 +8,7 @@
 //  return { addMark, getMark };
 // }
 
-const currentBoard = (function GameBoard() {
+function GameBoard() {
   const board = [];
   const rows = 3;
   const columns = 3;
@@ -29,31 +29,35 @@ const currentBoard = (function GameBoard() {
   }; // (cellAvailable(board[row][column]) ? board[row][column] = playerMark : 'no');
 
   return { getBoard, modifyCell, cellAvailable };
-}());
+}
 
 function Player(name, markStyle) {
-  const markCell = (row, column) => currentBoard.modifyCell(row, column, markStyle);
-
-  return { markCell, name, markStyle };
+  return { name, markStyle };
 }
 
 const GameController = (function GameController() {
-  const Player1 = Player('Juan', 'X');
-  const Player2 = Player('Carlos', 'O');
+  const Player1 = Player('Juan', 1);
+  const Player2 = Player('Carlos', -1);
   const players = [Player1, Player2];
+  const currentBoard = GameBoard();
 
-  let currentTurn = players[0];
+  const turn = 1;
+  let currentPlayer = players[0];
 
-  const getCurrentTurn = () => currentTurn;
+  const getCurrentTurn = () => currentPlayer;
   const getPlayers = () => players;
 
   const switchTurn = () => {
-    currentTurn = (currentTurn === players[0] ? players[1] : players[0]);
+    currentPlayer = (currentPlayer === players[0] ? players[1] : players[0]);
+  };
+
+  const checkWin = () => {
+
   };
 
   const playRound = (row, column) => {
     if (currentBoard.cellAvailable(currentBoard.getBoard()[row][column])) {
-      currentTurn.markCell(row, column);
+      currentBoard.modifyCell(row, column, currentPlayer.markStyle);
       console.log(currentBoard.getBoard());
       switchTurn();
     } else {
@@ -66,4 +70,5 @@ const GameController = (function GameController() {
     getPlayers, switchTurn, getCurrentTurn, playRound,
   };
 }());
+
 // funcion comenzar nuevo juego con los jugadores 1 y 2
