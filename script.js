@@ -51,6 +51,26 @@ const GameController = (function GameController() {
     currentPlayer = (currentPlayer === players[0] ? players[1] : players[0]);
   };
 
+  const checkRows = () => {
+    for (let i = 0; i < 3; i++) {
+      let rowValue = 0;
+      for (let j = 0; j < 3; j++) {
+        rowValue += currentBoard.getBoard()[i][j];
+      }
+      if (rowValue === 3 || rowValue === -3) console.log('winner');
+    }
+  };
+
+  checkColumns = () => {
+    for (let i = 0; i < 3; i++) {
+      let columnValue = 0;
+      for (let j = 0; j < 3; j++) {
+        columnValue += currentBoard.getBoard()[j][i];
+      }
+      if (columnValue === 3 || columnValue === -3) console.log('winner');
+    }
+  };
+
   const checkWin = () => {
 
   };
@@ -58,11 +78,13 @@ const GameController = (function GameController() {
   const playRound = (row, column) => {
     if (currentBoard.cellAvailable(currentBoard.getBoard()[row][column])) {
       currentBoard.modifyCell(row, column, currentPlayer.markStyle);
-      console.log(currentBoard.getBoard());
+      checkRows();
+      checkColumns();
       switchTurn();
     } else {
       console.log('Please, select a valid cell');
     }
+    console.log(currentBoard.getBoard());
   };
 
   console.log(currentBoard.getBoard());
