@@ -25,12 +25,10 @@ const currentBoard = (function GameBoard() {
   const cellAvailable = (cell) => cell === 0;
 
   const modifyCell = (row, column, playerMark) => {
-    if (cellAvailable(row, column)) {
-      board[row][column] = playerMark;
-    }
+    board[row][column] = playerMark;
   }; // (cellAvailable(board[row][column]) ? board[row][column] = playerMark : 'no');
 
-  return { getBoard, modifyCell };
+  return { getBoard, modifyCell, cellAvailable };
 }());
 
 function Player(name, markStyle) {
@@ -54,13 +52,18 @@ const GameController = (function GameController() {
   };
 
   const playRound = (row, column) => {
-    currentTurn.markCell(row, column);
-    switchTurn();
+    if (currentBoard.cellAvailable(currentBoard.getBoard()[row][column])) {
+      currentTurn.markCell(row, column);
+      console.log(currentBoard.getBoard());
+      switchTurn();
+    } else {
+      console.log('Please, select a valid cell');
+    }
   };
 
+  console.log(currentBoard.getBoard());
   return {
     getPlayers, switchTurn, getCurrentTurn, playRound,
   };
 }());
-
 // funcion comenzar nuevo juego con los jugadores 1 y 2
