@@ -1,13 +1,3 @@
-// function Cell() {
-//  let mark = 0;
-//
-//  const addMark = (playerMark) => { mark = playerMark; };
-//
-//  const getMark = () => mark;
-//
-//  return { addMark, getMark };
-// }
-
 function GameBoard() {
   const board = [];
   const rows = 3;
