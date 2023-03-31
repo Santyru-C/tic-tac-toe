@@ -92,7 +92,7 @@ const GameController = (function GameController() {
 
   const checkWin = () => (checkRows() || checkColumns() || checkDiagonals());
 
-  const callWinner = () => console.log(`${currentPlayer} wins!`);
+  const callWinner = () => console.log(`${currentPlayer.name} wins!`);
 
   const callTie = () => console.log("It's a Tie!");
 
