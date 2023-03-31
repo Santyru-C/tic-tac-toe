@@ -39,9 +39,9 @@ const GameController = (function GameController() {
   const Player1 = Player('Juan', 1);
   const Player2 = Player('Carlos', -1);
   const players = [Player1, Player2];
-  const currentBoard = GameBoard();
+  let currentBoard = GameBoard();
 
-  const turn = 1;
+  let turn = 0;
   let currentPlayer = players[0];
 
   const getCurrentTurn = () => currentPlayer;
@@ -51,13 +51,18 @@ const GameController = (function GameController() {
     currentPlayer = (currentPlayer === players[0] ? players[1] : players[0]);
   };
 
+  const newBoard = () => {
+    currentBoard = GameBoard();
+    turn = 0;
+  };
+
   const checkRows = () => {
     for (let i = 0; i < 3; i++) {
       let rowValue = 0;
       for (let j = 0; j < 3; j++) {
         rowValue += currentBoard.getBoard()[i][j];
       }
-      if (Math.abs(rowValue) === 3) console.log('winner');
+      if (Math.abs(rowValue) === 3) return true;
     }
   };
 
@@ -67,7 +72,7 @@ const GameController = (function GameController() {
       for (let j = 0; j < 3; j++) {
         columnValue += currentBoard.getBoard()[j][i];
       }
-      if (Math.abs(columnValue) === 3) console.log('winner');
+      if (Math.abs(columnValue) === 3) return true;
     }
   };
 
@@ -82,19 +87,20 @@ const GameController = (function GameController() {
       antidiagonalValue += currentBoard.getBoard()[2 - j][j];
     }
 
-    if ((Math.abs(diagonalValue)) === 3 || (Math.abs(antidiagonalValue) === 3)) console.log('winner');
+    if ((Math.abs(diagonalValue)) === 3 || (Math.abs(antidiagonalValue) === 3)) return true;
   };
 
-  const checkWin = () => {
+  const checkWin = () => (checkRows() || checkColumns() || checkDiagonals());
 
-  };
+  const callWinner = () => `${currentPlayer} wins!`;
+
+  const callTie = () => "It's a Tie!";
 
   const playRound = (row, column) => {
+    turn += 1;
+    console.log(turn);
     if (currentBoard.cellAvailable(currentBoard.getBoard()[row][column])) {
       currentBoard.modifyCell(row, column, currentPlayer.markStyle);
-      checkRows();
-      checkColumns();
-      checkDiagonals();
       switchTurn();
     } else {
       console.log('Please, select a valid cell');
