@@ -92,15 +92,28 @@ const GameController = (function GameController() {
 
   const checkWin = () => (checkRows() || checkColumns() || checkDiagonals());
 
-  const callWinner = () => `${currentPlayer} wins!`;
+  const callWinner = () => console.log(`${currentPlayer} wins!`);
 
-  const callTie = () => "It's a Tie!";
+  const callTie = () => console.log("It's a Tie!");
+
+  const checkGameOver = () => {
+    if (checkWin()) {
+      callWinner();
+      return true;
+    } if (!checkWin() && turn === 9) {
+      callTie();
+      return true;
+    }
+    return false;
+  };
 
   const playRound = (row, column) => {
     turn += 1;
     console.log(turn);
     if (currentBoard.cellAvailable(currentBoard.getBoard()[row][column])) {
       currentBoard.modifyCell(row, column, currentPlayer.markStyle);
+
+      if (checkGameOver()) newBoard();
       switchTurn();
     } else {
       console.log('Please, select a valid cell');
