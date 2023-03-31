@@ -26,7 +26,7 @@ function GameBoard() {
 
   const modifyCell = (row, column, playerMark) => {
     board[row][column] = playerMark;
-  }; // (cellAvailable(board[row][column]) ? board[row][column] = playerMark : 'no');
+  };
 
   return { getBoard, modifyCell, cellAvailable };
 }
