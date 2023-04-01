@@ -104,13 +104,16 @@ const GameController = (function GameController() {
     console.log(turn);
     if (currentBoard.cellAvailable(currentBoard.getBoard()[row][column])) {
       currentBoard.modifyCell(row, column, currentPlayer.markStyle);
-
-      if (checkGameOver()) newBoard();
-      switchTurn();
     } else {
       console.log('Please, select a valid cell');
     }
-    display.textContent = `${currentPlayer.name}'s turn`;
+
+    if (checkGameOver()) {
+      newBoard();
+    } else {
+      switchTurn();
+      display.textContent = `${currentPlayer.name}'s turn`;
+    }
     console.log(currentBoard.getBoard());
   };
 
@@ -123,22 +126,23 @@ const GameController = (function GameController() {
 
 // funcion comenzar nuevo juego con los jugadores 1 y 2
 
-const addCross = () => {
-  cells.classList.add('x_marked');
+const addCross = (cell) => {
+  cell.classList.add('x_marked');
 };
 
-const addCircle = () => {
-  cells.classList.add('o_marked');
+const addCircle = (cell) => {
+  cell.classList.add('o_marked');
 };
 
 const cells = document.getElementsByClassName('cell');
 
 Array.from(cells).forEach((cell) => {
   cell.addEventListener('click', () => {
-    GameController.playRound(cell.dataset.row, cell.dataset.column);
     if (GameController.getCurrentTurn().markStyle === 1) {
-      cell.classList.add('x_marked');
-    } else { cell.classList.add('o_marked'); }
+      addCross(cell);
+    } else { addCircle(cell); }
+
+    GameController.playRound(cell.dataset.row, cell.dataset.column);
   });
 });
 
