@@ -1,3 +1,5 @@
+const display = document.getElementById('display');
+
 function GameBoard() {
   const board = [];
   const rows = 3;
@@ -82,9 +84,9 @@ const GameController = (function GameController() {
 
   const checkWin = () => (checkRows() || checkColumns() || checkDiagonals());
 
-  const callWinner = () => console.log(`${currentPlayer.name} wins!`);
+  const callWinner = () => { display.textContent = `${currentPlayer.name} wins!`; };
 
-  const callTie = () => console.log("It's a Tie!");
+  const callTie = () => { display.textContent = "It's a Tie!"; };
 
   const checkGameOver = () => {
     if (checkWin()) {
@@ -108,13 +110,36 @@ const GameController = (function GameController() {
     } else {
       console.log('Please, select a valid cell');
     }
+    display.textContent = `${currentPlayer.name}'s turn`;
     console.log(currentBoard.getBoard());
   };
 
   console.log(currentBoard.getBoard());
+  display.textContent = `${currentPlayer.name}'s turn`;
   return {
     getPlayers, switchTurn, getCurrentTurn, playRound,
   };
 }());
 
 // funcion comenzar nuevo juego con los jugadores 1 y 2
+
+const addCross = () => {
+  cells.classList.add('x_marked');
+};
+
+const addCircle = () => {
+  cells.classList.add('o_marked');
+};
+
+const cells = document.getElementsByClassName('cell');
+
+Array.from(cells).forEach((cell) => {
+  cell.addEventListener('click', () => {
+    GameController.playRound(cell.dataset.row, cell.dataset.column);
+    if (GameController.getCurrentTurn().markStyle === 1) {
+      cell.classList.add('x_marked');
+    } else { cell.classList.add('o_marked'); }
+  });
+});
+
+// script data attributes instead of hard coding
