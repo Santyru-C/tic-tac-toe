@@ -1,0 +1,34 @@
+body {
+    display: flex;
+    justify-content: center;
+}
+
+.title,
+.display,
+.footer {
+    text-align: center;
+}
+
+.title {
+    margin: 2rem 0;
+}
+
+.display,
+.board {
+    margin-bottom: 1.5rem;
+}
+
+.board{
+    display: grid;
+    grid: repeat(3, 200px) / repeat(3, 200px);
+    gap: 1rem;
+}
+
+.cell {
+    border: 1px solid black;
+    border-radius: 4px;
+}
+
+.cell:hover {
+    background-color: antiquewhite;
+}
