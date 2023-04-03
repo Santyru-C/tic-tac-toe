@@ -1,4 +1,6 @@
 const display = document.getElementById('display');
+const board = document.getElementById('board');
+const cells = Array.from(document.getElementsByClassName('cell'));
 
 function GameBoard() {
   const board = [];
@@ -99,21 +101,22 @@ const GameController = (function GameController() {
     return false;
   };
 
-  const playRound = (row, column) => {
-    turn += 1;
-    console.log(turn);
+  const playRound = (row, column, cell) => {
     if (currentBoard.cellAvailable(currentBoard.getBoard()[row][column])) {
+      turn += 1;
+      console.log(turn);
       currentBoard.modifyCell(row, column, currentPlayer.markStyle);
+      (currentPlayer.markStyle === 1) ? addCross(cell) : addCircle(cell);
+      if (checkGameOver()) {
+        newBoard();
+      } else {
+        switchTurn();
+        display.textContent = `${currentPlayer.name}'s turn`;
+      }
     } else {
-      console.log('Please, select a valid cell');
+      display.textContent = 'Select a valid cell';
     }
 
-    if (checkGameOver()) {
-      newBoard();
-    } else {
-      switchTurn();
-      display.textContent = `${currentPlayer.name}'s turn`;
-    }
     console.log(currentBoard.getBoard());
   };
 
@@ -134,15 +137,10 @@ const addCircle = (cell) => {
   cell.classList.add('o_marked');
 };
 
-const cells = document.getElementsByClassName('cell');
-
-Array.from(cells).forEach((cell) => {
+cells.forEach((cell) => {
   cell.addEventListener('click', () => {
-    if (GameController.getCurrentTurn().markStyle === 1) {
-      addCross(cell);
-    } else { addCircle(cell); }
-
-    GameController.playRound(cell.dataset.row, cell.dataset.column);
+    // solve bug above, maybe put dom manipulation inse gamecontroller
+    GameController.playRound(cell.dataset.row, cell.dataset.column, cell);
   });
 });
 
