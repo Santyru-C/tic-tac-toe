@@ -48,6 +48,12 @@ const GameController = (function GameController() {
   const newBoard = () => {
     currentBoard = GameBoard();
     turn = 0;
+
+    // DOM manipulation
+    cells.forEach((cell) => {
+      cell.classList = '';
+      cell.classList.add('cell');
+    });
   };
 
   const checkRows = () => {
