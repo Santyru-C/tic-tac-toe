@@ -1,7 +1,3 @@
-const display = document.getElementById('display');
-const board = document.getElementById('board');
-const cells = Array.from(document.getElementsByClassName('cell'));
-
 function GameBoard() {
   const board = [];
   const rows = 3;
@@ -16,7 +12,7 @@ function GameBoard() {
 
   const getBoard = () => board;
 
-  const cellAvailable = (cell) => cell === 0;
+  const cellAvailable = (row, column) => getBoard()[row][column] === 0;
 
   const modifyCell = (row, column, playerMark) => {
     board[row][column] = playerMark;
@@ -29,31 +25,19 @@ function Player(name, markStyle) {
   return { name, markStyle };
 }
 
-const GameController = (function GameController() {
-  const Player1 = Player('Juan', 1);
-  const Player2 = Player('Carlos', -1);
+function GameController(name1, name2) {
+  const Player1 = Player(name1, 1);
+  const Player2 = Player(name2, -1);
   const players = [Player1, Player2];
-  let currentBoard = GameBoard();
+  const currentBoard = GameBoard();
 
   let turn = 0;
-  let currentPlayer = players[0];
+  let currentPlayerTurn = players[0];
+  const gameOver = false;
 
-  const getCurrentTurn = () => currentPlayer;
   const getPlayers = () => players;
-
-  const switchTurn = () => {
-    currentPlayer = (currentPlayer === players[0] ? players[1] : players[0]);
-  };
-
-  const newBoard = () => {
-    currentBoard = GameBoard();
-    turn = 0;
-
-    // DOM manipulation
-    cells.forEach((cell) => {
-      cell.classList = '';
-      cell.classList.add('cell');
-    });
+  const switchPlayerTurn = () => {
+    currentPlayerTurn = (currentPlayerTurn === players[0] ? players[1] : players[2]);
   };
 
   const checkRows = () => {
@@ -92,62 +76,51 @@ const GameController = (function GameController() {
 
   const checkWin = () => (checkRows() || checkColumns() || checkDiagonals());
 
-  const callWinner = () => { display.textContent = `${currentPlayer.name} wins!`; };
+  const checkDraw = () => (!checkWin() && turn === 9);
 
-  const callTie = () => { display.textContent = "It's a Tie!"; };
+  const checkGameOver = () => {};
 
-  const checkGameOver = () => {
-    if (checkWin()) {
-      callWinner();
-      return true;
-    } if (!checkWin() && turn === 9) {
-      callTie();
-      return true;
-    }
-    return false;
-  };
-
-  const playRound = (row, column, cell) => {
-    if (currentBoard.cellAvailable(currentBoard.getBoard()[row][column])) {
+  // if game not finished play round
+  const PlayRound = (row, column) => {
+    if (currentBoard.cellAvailable(row, column)) {
       turn += 1;
-      console.log(turn);
-      currentBoard.modifyCell(row, column, currentPlayer.markStyle);
-      (currentPlayer.markStyle === 1) ? addCross(cell) : addCircle(cell);
-      if (checkGameOver()) {
-        newBoard();
-      } else {
-        switchTurn();
-        display.textContent = `${currentPlayer.name}'s turn`;
-      }
+
+      currentBoard.modifyCell(row, column, currentPlayerTurn.markStyle);
+      checkGameOver();
+      !gameOver ? switchPlayerTurn() : '';
     } else {
-      display.textContent = 'Select a valid cell';
+      return false;
     }
-
-    console.log(currentBoard.getBoard());
   };
 
-  console.log(currentBoard.getBoard());
-  display.textContent = `${currentPlayer.name}'s turn`;
-  return {
-    getPlayers, switchTurn, getCurrentTurn, playRound,
+  return { PlayRound, getPlayers };
+}
+
+const ScreenController = (() => {
+  let currentGame;
+  const getCurrentGame = () => currentGame;
+
+  function startGame(name1, name2) {
+    currentGame = GameController(name1, name2);
+  }
+
+  const onCellClicked = (cell) => {
+
   };
-}());
 
-// funcion comenzar nuevo juego con los jugadores 1 y 2
+  const cells = Array.from(document.getElementsByClassName('cell'));
+  cells.forEach((cell) => cell.addEventListener('click', currentGame.PlayRound()));
 
-const addCross = (cell) => {
-  cell.classList.add('x_marked');
-};
+  return { startGame, getCurrentGame };
+})();
 
-const addCircle = (cell) => {
-  cell.classList.add('o_marked');
-};
+function test(e) {
+  e.preventDefault();
+  const name1 = document.getElementById('player1').value;
+  const name2 = document.getElementById('player2').value;
 
-cells.forEach((cell) => {
-  cell.addEventListener('click', () => {
-    // solve bug above, maybe put dom manipulation inse gamecontroller
-    GameController.playRound(cell.dataset.row, cell.dataset.column, cell);
-  });
-});
+  ScreenController.startGame(name1, name2);
+}
 
-// script data attributes instead of hard coding
+const playBtn = document.getElementById('play-btn');
+playBtn.addEventListener('click', test);
