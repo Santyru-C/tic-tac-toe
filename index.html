@@ -10,21 +10,45 @@
 <body>
     <div class="main_container">
         <div class="title">Tic-Tac-Toe</div>
-        <div class="display" id="display">Here goes some game text</div>
+        <div id="turn-display"></div>
+        <div class="display" id="text-display">Here goes some game text</div>
         <div class="board_container">
-            <div class="board">
-                <div class="cell" row="0" column="0"></div>
-                <div class="cell" row="0" column="1"></div>
-                <div class="cell" row="0" column="2"></div>
-                <div class="cell" row="1" column="0"></div>
-                <div class="cell" row="1" column="1"></div>
-                <div class="cell" row="1" column="2"></div>
-                <div class="cell" row="2" column="0"></div>
-                <div class="cell" row="2" column="1"></div>
-                <div class="cell" row="2" column="2"></div>
+            <div id="board">
+                <div class="cell" data-row="0" data-column="0"></div>
+                <div class="cell" data-row="0" data-column="1"></div>
+                <div class="cell" data-row="0" data-column="2"></div>
+                <div class="cell" data-row="1" data-column="0"></div>
+                <div class="cell" data-row="1" data-column="1"></div>
+                <div class="cell" data-row="1" data-column="2"></div>
+                <div class="cell" data-row="2" data-column="0"></div>
+                <div class="cell" data-row="2" data-column="1"></div>
+                <div class="cell" data-row="2" data-column="2"></div>
             </div>
         </div>
         <div class="footer">Here goes some text</div>
+    </div>
+    <div class="form-wrapper">
+        <form class="player-info">
+            <div class="input-wrapper">
+                <input 
+                    type="text" 
+                    id="player1"
+                    placeholder="Player1">
+                <div id="vs">VS</div>
+                <input 
+                    type="text" 
+                    id="player2" 
+                    placeholder="Player2">
+            </div>
+            <button type="submit" id="play-btn">Start Game</button>
+        </form>
+    </div>
+    <div class="result-wrapper">
+        <div class="result-display">Here goes the game over state</div>
+        <div class="button-wrapper">
+            <button id="quit-btn">quit</button>
+            <button id="replay-btn">replay</button>
+        </div>
     </div>
     <script src="./script.js"></script>
 </body>
