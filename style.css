@@ -1,6 +1,34 @@
+* {
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+
+  }
+
+html,
 body {
+    height: 100%;
+}
+body {
+    position: relative;
     display: flex;
     justify-content: center;
+}
+
+button,
+label,
+input {
+  display: block;
+  font-family: inherit;
+  font-size: 100%;
+  width: 15rem;
+  padding: 5px;
+  height: 30px;
+}
+
+.blur--active {
+    filter: blur(10px);
 }
 
 .title,
@@ -9,26 +37,109 @@ body {
     text-align: center;
 }
 
+.title,
+#text-display,
+.form-wrapper,
+.result-wrapper,
+.cell {
+    border: 1px solid #808080;
+    border-radius: 4px;
+    box-shadow: 2px 2px 5px #808080;
+}
+
+.display {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+}
+
 .title {
-    margin: 2rem 0;
+    margin: 1.5rem 0 3rem 0;
+    padding: 1rem 1rem;
+    font-size: 2rem;
 }
 
-.display,
-.board {
-    margin-bottom: 1.5rem;
+.display-container {
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
 }
 
-.board{
+#text-display {
+    padding: 0.5rem 1.5rem;
+}
+
+#board{
     display: grid;
     grid: repeat(3, 200px) / repeat(3, 200px);
     gap: 1rem;
 }
 
-.cell {
-    border: 1px solid black;
-    border-radius: 4px;
+.cell:hover {
+    background-color: #E0E0E0;
 }
 
-.cell:hover {
-    background-color: antiquewhite;
+.cell--disabled {
+    pointer-events: none;
+}
+
+.x_marked {
+    background-image: url(./svgs/cross.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.o_marked {
+    background-image: url(./svgs/circle.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.form-wrapper,
+.result-wrapper {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background-color: white;
+    top: 40%;
+}
+
+.player-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.input-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+#vs {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+}
+
+.form-active {
+    filter: blur(2px);
+}
+
+#result-display {
+    font-size: 2rem;
+    font-weight: bold;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
 }
