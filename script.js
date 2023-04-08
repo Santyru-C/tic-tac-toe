@@ -138,9 +138,10 @@ const Game = (p1, p2) => {
 
 const Controller = (() => {
   let currentGame;
+  const mainContainer = document.getElementsByClassName('main_container')[0];
+  const textDisplay = document.getElementById('text-display');
   const resultWrapper = document.getElementsByClassName('result-wrapper')[0];
   const resultDisplay = document.getElementById('result-display');
-  const textDisplay = document.getElementById('text-display');
   const playBtn = document.getElementById('play-btn');
   const rematchBtn = document.getElementById('rematch-btn');
   const cells = Array.from(document.getElementsByClassName('cell'));
@@ -158,6 +159,16 @@ const Controller = (() => {
     cells.forEach((cell) => toggleGridCell(cell));
   };
 
+  const toggleBlur = () => {
+    if (mainContainer.classList.contains('blur--active')) {
+      mainContainer.classList.remove('blur--active');
+      console.log('blut active');
+    } else {
+      mainContainer.classList.add('blur--active');
+      console.log('blur inactive');
+    }
+  };
+
   const clearDisplayBoard = () => {
     cells.forEach((cell) => {
       const cellClassList = Array.from(cell.classList);
@@ -171,6 +182,10 @@ const Controller = (() => {
     });
   };
 
+  const updateTextDisplay = () => {
+    textDisplay.textContent = `Current Turn: ${currentGame.getCurrentPlayerTurn().name}`;
+  };
+
   const startGame = (event) => {
     event.preventDefault();
     const name1 = document.getElementById('player1').value;
@@ -180,12 +195,10 @@ const Controller = (() => {
     currentGame = Game(name1, name2);
     formWrapper.style.visibility = 'hidden';
     toggleDisplayBoard();
+    toggleBlur();
 
-    textDisplay.textContent = currentGame.getCurrentPlayerTurn().name;
+    updateTextDisplay();
   };
-
-  // update display function
-  // update board function
 
   const takeInput = (cell) => {
     const { row } = cell.dataset;
@@ -199,13 +212,11 @@ const Controller = (() => {
         resultDisplay.textContent = currentGame.getGameState();
         resultWrapper.style.visibility = 'visible';
         toggleDisplayBoard();
+        toggleBlur();
       } else {
         currentGame.switchPlayerTurn();
-        textDisplay.textContent = currentGame.getCurrentPlayerTurn().name;
-        turnDisplay.textContent = currentGame.getCurrentTurn().toString();
+        updateTextDisplay();
       }
-    } else {
-      textDisplay.textContent = 'Please select a valid cell';
     }
   };
 
@@ -214,7 +225,8 @@ const Controller = (() => {
     GameBoard.resetGrid();
     clearDisplayBoard();
     toggleDisplayBoard();
-    textDisplay.textContent = currentGame.getCurrentPlayerTurn().name;
+    toggleBlur();
+    updateTextDisplay();
 
     resultWrapper.style.visibility = 'hidden';
   };
@@ -224,6 +236,7 @@ const Controller = (() => {
   rematchBtn.addEventListener('click', rematch);
   cells.forEach((cell) => cell.addEventListener('click', () => { takeInput(cell); }));
   toggleDisplayBoard();
+  toggleBlur();
 
   return { getCurrentGame };
 })();
