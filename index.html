@@ -10,8 +10,9 @@
 <body>
     <div class="main_container">
         <div class="title">Tic-Tac-Toe</div>
-        <div id="turn-display"></div>
-        <div class="display" id="text-display">Here goes some game text</div>
+        <div class="display-container">
+            <div id="text-display">Current Player:</div>
+        </div>
         <div class="board_container">
             <div id="board">
                 <div class="cell" data-row="0" data-column="0"></div>
@@ -44,10 +45,9 @@
         </form>
     </div>
     <div class="result-wrapper">
-        <div class="result-display">Here goes the game over state</div>
+        <div id="result-display"></div>
         <div class="button-wrapper">
-            <button id="quit-btn">quit</button>
-            <button id="replay-btn">replay</button>
+            <button id="rematch-btn">rematch</button>
         </div>
     </div>
     <script src="./script.js"></script>

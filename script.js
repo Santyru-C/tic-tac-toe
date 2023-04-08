@@ -140,7 +140,6 @@ const Controller = (() => {
   let currentGame;
   const resultWrapper = document.getElementsByClassName('result-wrapper')[0];
   const resultDisplay = document.getElementById('result-display');
-  const turnDisplay = document.getElementById('turn-display');
   const textDisplay = document.getElementById('text-display');
   const playBtn = document.getElementById('play-btn');
   const rematchBtn = document.getElementById('rematch-btn');
@@ -183,7 +182,6 @@ const Controller = (() => {
     toggleDisplayBoard();
 
     textDisplay.textContent = currentGame.getCurrentPlayerTurn().name;
-    turnDisplay.textContent = currentGame.getCurrentTurn().toString();
   };
 
   // update display function
@@ -216,7 +214,6 @@ const Controller = (() => {
     GameBoard.resetGrid();
     clearDisplayBoard();
     toggleDisplayBoard();
-    turnDisplay.textContent = currentGame.getCurrentTurn().toString();
     textDisplay.textContent = currentGame.getCurrentPlayerTurn().name;
 
     resultWrapper.style.visibility = 'hidden';
