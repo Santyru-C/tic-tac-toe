@@ -93,7 +93,10 @@ const Game = (p1, p2) => {
 
   const getCurrentTurn = () => turn;
 
-  const resetTurnCount = () => { turn = 0; };
+  const resetTurnCount = () => {
+    turn = 1;
+    currentPlayerTurn = playerList[0];
+  };
 
   const getCurrentPlayerTurn = () => currentPlayerTurn;
 
@@ -135,9 +138,12 @@ const Game = (p1, p2) => {
 
 const Controller = (() => {
   let currentGame;
+  const resultWrapper = document.getElementsByClassName('result-wrapper')[0];
+  const resultDisplay = document.getElementById('result-display');
   const turnDisplay = document.getElementById('turn-display');
   const textDisplay = document.getElementById('text-display');
   const playBtn = document.getElementById('play-btn');
+  const rematchBtn = document.getElementById('rematch-btn');
   const cells = Array.from(document.getElementsByClassName('cell'));
 
   const getCurrentGame = () => currentGame;
@@ -192,7 +198,8 @@ const Controller = (() => {
       (GameBoard.getMarkFromCell(row, column) === 1) ? cell.classList.add('x_marked') : cell.classList.add('o_marked');
 
       if (currentGame.gameOver()) {
-        textDisplay.textContent = currentGame.getGameState();
+        resultDisplay.textContent = currentGame.getGameState();
+        resultWrapper.style.visibility = 'visible';
         toggleDisplayBoard();
       } else {
         currentGame.switchPlayerTurn();
@@ -204,7 +211,20 @@ const Controller = (() => {
     }
   };
 
+  const rematch = () => {
+    currentGame.resetTurnCount();
+    GameBoard.resetGrid();
+    clearDisplayBoard();
+    toggleDisplayBoard();
+    turnDisplay.textContent = currentGame.getCurrentTurn().toString();
+    textDisplay.textContent = currentGame.getCurrentPlayerTurn().name;
+
+    resultWrapper.style.visibility = 'hidden';
+  };
+
+  resultWrapper.style.visibility = 'hidden';
   playBtn.addEventListener('click', startGame);
+  rematchBtn.addEventListener('click', rematch);
   cells.forEach((cell) => cell.addEventListener('click', () => { takeInput(cell); }));
   toggleDisplayBoard();
 
