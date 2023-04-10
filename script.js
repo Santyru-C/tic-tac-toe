@@ -188,8 +188,11 @@ const Controller = (() => {
 
   const startGame = (event) => {
     event.preventDefault();
-    const name1 = document.getElementById('player1').value;
-    const name2 = document.getElementById('player2').value;
+    const input1 = document.getElementById('player1');
+    const input2 = document.getElementById('player2');
+    const name1 = (input1.value ? input1.value : 'Juan');
+    const name2 = (input2.value ? input2.value : 'Carlos');
+
     const formWrapper = document.getElementsByClassName('form-wrapper')[0];
 
     currentGame = Game(name1, name2);
