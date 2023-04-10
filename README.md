@@ -4,14 +4,14 @@ Live demo [_here_](https://santyru-c.github.io/tic-tac-toe/).
 
 ## General Information
 This project was made with the intention of practicing JS Factory Functions and the Module Pattern. 
-Most of the concepts applied are related with those learnt from [this lesson](https://www.theodinproject.com/lessons/node-path-javascript-factory-functions-and-the-module-pattern) from TOP:
+Most of the concepts applied are related with those learned from [this lesson](https://www.theodinproject.com/lessons/node-path-javascript-factory-functions-and-the-module-pattern) from TOP:
 
 - Factory functions
 - Closure and factory methods
 - Module Pattern
 - IIFE
 
-But, the most important concept that I learnt from this lesson was:
+But, the most important concept that I learned from this lesson was:
 
 - Do NOT skip planning time for your code.
 
